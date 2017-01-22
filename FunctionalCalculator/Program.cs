@@ -10,12 +10,16 @@ namespace FunctionalCalculator
 		public static int evaluate(string expression)
 		{
 			int val = 0;
+			// Parse
+			Queue parsedExpression = new Queue();
 			for (int i = 0; i < expression.Length; i++)
 			{
 				char c = expression[i];
 				if (c == '-')
 				{
-					return val - evaluate(expression.Substring(i + 1));
+					parsedExpression.Enqueue(val);
+					parsedExpression.Enqueue(c);
+					continue;
 				}
 				if (c < '0' || c > '9')
 				{
@@ -23,6 +27,28 @@ namespace FunctionalCalculator
 				}
 				val *= 10;
 				val += c - '0';
+			}
+			parsedExpression.Enqueue(val);
+			// Evaluate
+			if (parsedExpression.Peek() is int)
+			{
+				val = (int)parsedExpression.Dequeue();
+			}
+			else 
+			{
+				val = 0;
+			}
+			while (parsedExpression.Count > 0)
+			{
+				switch ((char)parsedExpression.Dequeue())
+				{
+					case '-':
+						val -= (int)parsedExpression.Dequeue();
+						break;
+					default:
+						Console.WriteLine("Unknown op");
+						break;
+				}
 			}
 			return val;
 		}
