@@ -6,7 +6,22 @@ namespace FunctionalCalculator
 	{
 		public static int evaluate(string expression)
 		{
-			return 0;
+			int val = 0;
+			bool neg = expression[0] == '-';
+			foreach (char c in expression)
+			{
+				if (c < '0' || c > '9')
+				{
+					continue;
+				}
+				val *= 10;
+				val += c - '0';
+			}
+			if (neg)
+			{
+				val = -val;
+			}
+			return val;
 		}
 		public static void Main(string[] args)
 		{
