@@ -22,6 +22,35 @@ namespace FunctionalCalculator
 					val = 0;
 					continue;
 				}
+				if (c == '(')
+				{
+					int opens = 1;
+					int len = -1;
+					for (int j = i + 1; opens > 0; j++)
+					{
+						switch (expression[j])
+						{
+							case '(':
+								opens++;
+								break;
+							case ')':
+								opens--;
+								break;
+						}
+						len++;
+					}
+					int rec = evaluate(expression.Substring(i + 1, len));
+					if (val == 0)
+					{
+						val = rec;
+					}
+					else
+					{
+						val *= rec;
+					}
+					i += len + 1;
+					continue;
+				}
 				if (c < '0' || c > '9')
 				{
 					continue;
@@ -103,6 +132,9 @@ namespace FunctionalCalculator
 			failures += expectEqual(9, evaluate("6+3"));
 			failures += expectEqual(13, evaluate("3+7-2+5"));
 			failures += expectEqual(12, evaluate("3+7*2-5"));
+			failures += expectEqual(-18, evaluate("3+7*(2-5)"));
+			failures += expectEqual(-18, evaluate("3+7*(2-(2+3))"));
+			failures += expectEqual(32, evaluate("2(1+(4(2+1)+3))"));
 			return failures;
 		}
 
