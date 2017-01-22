@@ -15,7 +15,7 @@ namespace FunctionalCalculator
 			for (int i = 0; i < expression.Length; i++)
 			{
 				char c = expression[i];
-				if (c == '-' || c == '+')
+				if (c == '-' || c == '+' || c == '*')
 				{
 					parsedExpression.Enqueue(val);
 					parsedExpression.Enqueue(c);
@@ -31,14 +31,32 @@ namespace FunctionalCalculator
 			}
 			parsedExpression.Enqueue(val);
 			// Evaluate
-			if (parsedExpression.Peek() is int)
+			// * first
+			if (parsedExpression.Contains('*'))
 			{
-				val = (int)parsedExpression.Dequeue();
+				Object[] flattened = parsedExpression.ToArray();
+				parsedExpression.Clear();
+				var tempExpression = new ArrayList(flattened.Length);
+				for (int i = 0; i < flattened.Length; i++)
+				{
+					Object atom = flattened[i];
+					if (atom is int || (char)atom != '*')
+					{
+						tempExpression.Add(atom);
+					}
+					else
+					{
+						var prev = (int)tempExpression[tempExpression.Count - 1];
+						tempExpression[tempExpression.Count - 1] = prev * (int)flattened[++i];
+					}
+				}
+				foreach (Object atom in tempExpression)
+				{
+					parsedExpression.Enqueue(atom);
+				}
 			}
-			else 
-			{
-				val = 0;
-			}
+			// then + and -
+			val = (int)parsedExpression.Dequeue();
 			while (parsedExpression.Count > 0)
 			{
 				switch ((char)parsedExpression.Dequeue())
@@ -84,6 +102,7 @@ namespace FunctionalCalculator
 			failures += expectEqual(8, evaluate("12-3-1"));
 			failures += expectEqual(9, evaluate("6+3"));
 			failures += expectEqual(13, evaluate("3+7-2+5"));
+			failures += expectEqual(12, evaluate("3+7*2-5"));
 			return failures;
 		}
 
