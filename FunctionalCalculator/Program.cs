@@ -32,7 +32,12 @@ namespace FunctionalCalculator
 			expectations++;
 			if (exp != act)
 			{
-				Console.WriteLine("Test {0} Failed!", expectations);
+				Console.WriteLine(
+					"Test {0} Failed: {1} does not equal expected value {2}",
+					expectations,
+					act,
+					exp
+				);
 				return 1;
 			}
 			return 0;
