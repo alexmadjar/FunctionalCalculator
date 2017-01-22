@@ -133,7 +133,10 @@ namespace FunctionalCalculator
 			failures += expectEqual(13, evaluate("3+7-2+5"));
 			failures += expectEqual(12, evaluate("3+7*2-5"));
 			failures += expectEqual(-18, evaluate("3+7*(2-5)"));
-			failures += expectEqual(-18, evaluate("3+7*(2-(2+3))"));
+			failures += expectEqual(-21, evaluate("3+8*(2-(2+3))"));
+			failures += expectEqual(12, evaluate("(3)(4)"));
+			failures += expectEqual(14, evaluate("2(7)"));
+			failures += expectEqual(21, evaluate("(3)*(7)"));
 			failures += expectEqual(32, evaluate("2(1+(4(2+1)+3))"));
 			return failures;
 		}
