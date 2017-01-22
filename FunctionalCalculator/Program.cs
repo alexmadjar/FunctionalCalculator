@@ -15,10 +15,11 @@ namespace FunctionalCalculator
 			for (int i = 0; i < expression.Length; i++)
 			{
 				char c = expression[i];
-				if (c == '-')
+				if (c == '-' || c == '+')
 				{
 					parsedExpression.Enqueue(val);
 					parsedExpression.Enqueue(c);
+					val = 0;
 					continue;
 				}
 				if (c < '0' || c > '9')
@@ -45,9 +46,12 @@ namespace FunctionalCalculator
 					case '-':
 						val -= (int)parsedExpression.Dequeue();
 						break;
+					case '+':
+						val += (int)parsedExpression.Dequeue();
+						break;
 					default:
 						Console.WriteLine("Unknown op");
-						break;
+						return -999999;
 				}
 			}
 			return val;
@@ -78,6 +82,8 @@ namespace FunctionalCalculator
 			failures += expectEqual(2, evaluate("9-7"));
 			failures += expectEqual(-2, evaluate("7-9"));
 			failures += expectEqual(8, evaluate("12-3-1"));
+			failures += expectEqual(9, evaluate("6+3"));
+			failures += expectEqual(13, evaluate("3+7-2+5"));
 			return failures;
 		}
 
