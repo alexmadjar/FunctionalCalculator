@@ -11,9 +11,13 @@ namespace FunctionalCalculator
 		public static void Main(string[] args)
 		{
 			string foo = "";
-			while (foo != "quit" && foo != "end")
+			while (true)
 			{
 				foo = Console.ReadLine();
+				if (foo == "quit" || foo == "end")
+				{
+					break;
+				}
 				Console.WriteLine(evaluate(foo));
 			}
 		}
