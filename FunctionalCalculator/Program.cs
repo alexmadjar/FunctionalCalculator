@@ -46,6 +46,7 @@ namespace FunctionalCalculator
 			failures += expectEqual(0, evaluate("junk"));
 			failures += expectEqual(2, evaluate("9-7"));
 			failures += expectEqual(-2, evaluate("7-9"));
+			failures += expectEqual(8, evaluate("12-3-1"));
 			return failures;
 		}
 
