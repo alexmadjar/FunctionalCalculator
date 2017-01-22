@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 
 namespace FunctionalCalculator
 {
@@ -9,19 +10,19 @@ namespace FunctionalCalculator
 		public static int evaluate(string expression)
 		{
 			int val = 0;
-			bool neg = expression[0] == '-';
-			foreach (char c in expression)
+			for (int i = 0; i < expression.Length; i++)
 			{
+				char c = expression[i];
+				if (c == '-')
+				{
+					return val - evaluate(expression.Substring(i + 1));
+				}
 				if (c < '0' || c > '9')
 				{
 					continue;
 				}
 				val *= 10;
 				val += c - '0';
-			}
-			if (neg)
-			{
-				val = -val;
 			}
 			return val;
 		}
