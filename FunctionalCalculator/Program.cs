@@ -51,8 +51,12 @@ namespace FunctionalCalculator
 			int failedTests = runTests();
 			if (failedTests > 0)
 			{
-				Console.WriteLine("Failed {0} test(s)!", failedTests);
+				Console.WriteLine("Failed {0}/{1} test(s)!", failedTests, expectations);
 				return;
+			}
+			else
+			{
+				Console.WriteLine("All {0} tests passed!", expectations);
 			}
 			string input = "";
 			while (true)
